@@ -1,0 +1,83 @@
+import mysql.connector
+from mysql.connector import Error
+
+def connect_to_db(FoodDB):
+
+def get_food_items(connection, search_term=None, ingredients=None, region=None):
+    #Fetch food items based on search criteria from the database.
+    cursor = connection.cursor()
+    query = "SELECT * FROM FoodItems WHERE 1=1"
+
+    # Add search filters
+    if search_term:
+        query += " AND RecipeName LIKE %s"
+        search_term = f"%{search_term}%"
+    if ingredients:
+        query += " AND Ingredients LIKE %s"
+        ingredients = f"%{ingredients}%"
+    if region:
+        query += " AND Region = %s"
+
+    params = [param for param in (search_term, ingredients, region) if param]
+
+    cursor.execute(query, params)
+    rows = cursor.fetchall()
+
+    return rows
+
+def sign_in():
+    #Handle user sign-in functionality.
+    username = input("\nEnter your username: \n")
+    password = input("\nEnter your password: \n")
+
+    return username, password
+
+def main():
+    db_name = "FoodDB"  # Name of the database, ensure it's changed if we rename
+    connection = connect_to_db(db_name)
+
+    if not connection:
+        return
+
+    while True:
+        print("\nWelcome to the Eggcellent Breakfast Book.")
+        username, password = sign_in()  # Get username and password
+
+        print("1: Recipe Search")
+        print("2: Ingredients Search")
+        print("3: Region Search")
+        print("4: Favorited Recipes")
+        print("5: Health Restrictions")
+        print("0: Exit")
+        choice = input("Enter your choice: ")
+
+        if choice == '1':
+            recipe_choice = input("Enter desired recipe name: ")
+            results = get_food_items(connection, search_term=recipe_choice)
+            print(results)
+        elif choice == '2':
+            ingredients_choice = input("Enter desired ingredients: ")
+            results = get_food_items(connection, ingredients=ingredients_choice)
+            print(results)
+        elif choice == '3':
+            region_choice = input("Enter the region your recipe is from: ")
+            results = get_food_items(connection, region=region_choice)
+            print(results)
+        elif choice == '4':
+            print(f"Favorited recipes for user {username}:")
+            # Implement retrieval of favorited recipes based on username
+            pass
+        elif choice == '5':
+            restriction_choice = input("Enter your desired restriction (e.g., Vegetarian): ")
+            # Implement search for recipes based on health restrictions
+            pass
+        elif choice == '0':
+            print("Exiting the program.")
+            break
+        else:
+            print("Invalid choice. Please try again.")
+
+    connection.close()
+
+if __name__ == "__main__":
+    main()
