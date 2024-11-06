@@ -4,7 +4,7 @@ CREATE DATABASE IF NOT EXISTS `FoodDB`;
 -- Use the created database
 USE FoodDB;
 
-
+-- Create a table for food items with additional attributes
 DROP TABLE IF EXISTS `FoodItems`;
 CREATE TABLE `FoodItems` (
     FoodID INT AUTO_INCREMENT PRIMARY KEY,     -- Primary Key
@@ -38,7 +38,9 @@ CREATE TABLE `Recipe` (
 DROP TABLE IF EXISTS `User`;
 CREATE TABLE IF NOT EXISTS `User`(
 	UserID INT PRIMARY KEY AUTO_INCREMENT,
-    Pass TEXT NOT NULL);
+    Pass TEXT NOT NULL,
+    username VARCHAR(20) NOT NULL,
+    password VARCHAR(20) NOT NULL);
     
 
 DROP TABLE IF EXISTS `Favorites`;
@@ -50,8 +52,6 @@ added_to DATETIME DEFAULT CURRENT_TIMESTAMP,
 Primary Key (id),
 Foreign Key (user_id) References `User`(UserID),
 Foreign Key (recipe_id) References Recipe(id),
-username VARCHAR(20) NOT NULL,
-password VARCHAR(20) NOT NULL,
 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
     
@@ -65,31 +65,66 @@ CREATE TABLE `Diet`(
 );
 
 
--- Insert some sample entries into FoodItems
--- INSERT INTO `FoodItems` (FoodName, IsVegetarian, CookTime, Region, Difficulty) VALUES
--- ('Margherita Pizza', TRUE, 30, 4.5, 'Italy', 'Easy'),
--- ('Chicken Masala', FALSE, 45, 4.7, 'India', 'Medium'),
--- ('Sushi Platter', TRUE, 60, 4.8, 'Japan', 'Hard'),
--- ('Cheeseburger', FALSE, 25, 4.2, 'USA', 'Easy'),
--- ('Caesar Salad', TRUE, 15, 4.0, 'USA', 'Easy');
+-- sample inserts
 
--- INSERT INTO `NurtritionalValue` (Allergies, Calories, ServingSize) VALUES
--- ('Gluten, Dairy', 250, '1 Slice'),
--- ('Dairy, Nuts', 400, '1 Plate'),
--- ('Fish', 300, '10 Pieces'),
--- ('Gluten, Dairy', 500, '1 Sandwich'),
--- ('Dairy, Gluten', 150, '1 Bowl');
+INSERT INTO `FoodItems` (FoodName, CookTime, Ratings, Region, Difficulty)
+VALUES 
+    ('Spaghetti Carbonara', 30, 4.5, 'Italy', 'Medium'),
+    ('Vegetable Stir Fry', 15, 4.0, 'China', 'Easy'),
+    ('Beef Wellington', 120, 5.0, 'England', 'Hard'),
+    ('Grilled Salmon', 25, 4.7, 'Norway', 'Medium'),
+    ('Chicken Tikka Masala', 40, 4.3, 'India', 'Medium');
 
--- INSERT INTO `Recipe`(Ratings) VALUES
--- (4.5),
--- (4.7),
--- (4.8),
--- (4.2),
--- (4.0);
 
--- INSERT INTO `Favorites` () VALUES
--- (
--- );
+INSERT INTO `NutritionalValue` (FoodID, Calories, Carbs, Fats, Proteins, ServingSize)
+VALUES
+    (1, 600, 80, 20, 25, '1 Plate'),
+    (2, 350, 50, 10, 15, '1 Plate'),
+    (3, 700, 40, 40, 35, '1 Plate'),
+    (4, 400, 30, 18, 28, '1 Filet'),
+    (5, 500, 55, 15, 30, '1 Plate');
 
--- INSERT INTO `User` () VALUES ();
+INSERT INTO `Recipe` (Food_name, Ingredients, Preparation_time, Instructions)
+VALUES
+    ('Spaghetti Carbonara', 
+        'Spaghetti, Eggs, Parmesan Cheese, Pancetta, Garlic, Black Pepper', 
+        30, 
+        '1. Boil the spaghetti. 2. Cook pancetta in a pan. 3. Mix eggs and cheese, and combine with cooked pasta and pancetta.'),
+    ('Vegetable Stir Fry', 
+        'Broccoli, Bell Peppers, Carrots, Soy Sauce, Olive Oil, Ginger', 
+        15, 
+        '1. Chop vegetables. 2. Stir fry in a pan with soy sauce and olive oil until tender.'),
+    ('Beef Wellington', 
+        'Beef Tenderloin, Puff Pastry, Mushrooms, Prosciutto, Egg', 
+        120, 
+        '1. Sear beef. 2. Roll with mushroom and prosciutto. 3. Wrap in puff pastry and bake.'),
+    ('Grilled Salmon', 
+        'Salmon Filets, Olive Oil, Lemon, Garlic, Salt, Pepper', 
+        25, 
+        '1. Season salmon with olive oil, lemon, and spices. 2. Grill for 10-12 minutes.'),
+    ('Chicken Tikka Masala', 
+        'Chicken, Yogurt, Tomatoes, Onion, Garlic, Ginger, Garam Masala', 
+        40, 
+        '1. Marinate chicken in yogurt and spices. 2. Cook chicken, then make masala sauce with tomatoes, onions, and spices.');
 
+INSERT INTO `User` (Pass, username, password)
+VALUES
+    ('hashed_password_123', 'john_doe', 'password123'),
+    ('hashed_password_456', 'jane_smith', 'securepass456'),
+    ('hashed_password_789', 'alice_wong', 'mypassword789');
+
+INSERT INTO `Favorites` (user_id, recipe_id)
+VALUES
+    (1, 1),   -- John Doe's favorite is Spaghetti Carbonara
+    (1, 4),   -- John Doe's favorite is Grilled Salmon
+    (2, 3),   -- Jane Smith's favorite is Beef Wellington
+    (2, 5),   -- Jane Smith's favorite is Chicken Tikka Masala
+    (3, 2);   -- Alice Wong's favorite is Vegetable Stir Fry
+
+INSERT INTO `Diet` (FoodID, Vegetarian, Pescatarian, Vegan, Allergies)
+VALUES
+    (1, FALSE, FALSE, FALSE, 'None'),           -- Spaghetti Carbonara: Not vegetarian, not vegan, no allergies
+    (2, TRUE, TRUE, TRUE, 'None'),              -- Vegetable Stir Fry: Vegetarian, Pescatarian, Vegan, no allergies
+    (3, FALSE, FALSE, FALSE, 'Gluten'),         -- Beef Wellington: Not vegetarian, not vegan, contains gluten
+    (4, FALSE, TRUE, FALSE, 'None'),            -- Grilled Salmon: Not vegetarian, pescatarian, not vegan, no allergies
+    (5, FALSE, FALSE, FALSE, 'Dairy, Nuts');    -- Chicken Tikka Masala: Not vegetarian, not vegan, contains dairy and nuts
