@@ -4,7 +4,7 @@ CREATE DATABASE IF NOT EXISTS `FoodDB`;
 -- Use the created database
 USE FoodDB;
 
--- Create a table for food items with additional attributes
+
 DROP TABLE IF EXISTS `FoodItems`;
 CREATE TABLE `FoodItems` (
     FoodID INT AUTO_INCREMENT PRIMARY KEY,     -- Primary Key
