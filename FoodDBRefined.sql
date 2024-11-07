@@ -29,11 +29,11 @@ CREATE TABLE `NutritionalValue` (
 -- Drop and create Recipe table
 DROP TABLE IF EXISTS `Recipe`;
 CREATE TABLE `Recipe` (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    FoodName VARCHAR(60) NOT NULL,
-    Ingredients TEXT NOT NULL,
-    PreparationTime INT NOT NULL,
-    Instructions TEXT NOT NULL
+    FoodID INT AUTO_INCREMENT PRIMARY KEY,
+    FoodName VARCHAR(255),
+    Ingredients TEXT,
+    PreparationTime INT,
+    Instructions TEXT
 );
 
 -- Drop and create User table
@@ -73,7 +73,17 @@ VALUES
     ('Vegetable Stir Fry', 15, 4.0, 'China', 'Easy'),
     ('Beef Wellington', 120, 5.0, 'England', 'Hard'),
     ('Grilled Salmon', 25, 4.7, 'Norway', 'Medium'),
-    ('Chicken Tikka Masala', 40, 4.3, 'India', 'Medium');
+    ('Chicken Tikka Masala', 40, 4.3, 'India', 'Medium'),
+    ('Pancakes', 20, 4.6, 'United States', 'Easy'),
+    ('Avocado Toast', 10, 4.4, 'United States', 'Easy'),
+    ('Oatmeal', 10, 4.2, 'Various', 'Easy'),
+    ('Scrambled Eggs', 5, 4.5, 'Various', 'Easy'),
+    ('Smoothie Bowl', 5, 4.3, 'Various', 'Easy'),
+    ('Bagel with Cream Cheese', 5, 4.1, 'United States', 'Easy'),
+    ('French Toast', 15, 4.6, 'France', 'Medium'),
+    ('Breakfast Burrito', 15, 4.4, 'Mexico', 'Medium'),
+    ('Granola with Yogurt', 5, 4.0, 'Various', 'Easy'),
+    ('Egg and Cheese Sandwich', 10, 4.2, 'Various', 'Easy');
 
 -- Sample inserts for NutritionalValue
 INSERT INTO `NutritionalValue` (FoodID, Calories, Carbs, Fats, Proteins, ServingSize)
@@ -82,7 +92,17 @@ VALUES
     (2, 350, 50, 10, 15, '1 Plate'),
     (3, 700, 40, 40, 35, '1 Plate'),
     (4, 400, 30, 18, 28, '1 Filet'),
-    (5, 500, 55, 15, 30, '1 Plate');
+    (5, 500, 55, 15, 30, '1 Plate'),
+    (6, 450, 60, 15, 8, '3 Pancakes'),
+    (7, 250, 30, 12, 5, '1 Slice'),
+    (8, 150, 27, 3, 5, '1 Bowl'),
+    (9, 200, 1, 14, 12, '2 Eggs'),
+    (10, 300, 40, 8, 10, '1 Bowl'),
+    (11, 280, 50, 9, 8, '1 Bagel'),
+    (12, 400, 55, 14, 9, '2 Slices'),
+    (13, 500, 60, 22, 18, '1 Burrito'),
+    (14, 200, 30, 7, 6, '1 Bowl'),
+    (15, 350, 40, 15, 12, '1 Sandwich');
 
 -- Sample inserts for Recipe
 INSERT INTO `Recipe` (FoodName, Ingredients, PreparationTime, Instructions)
@@ -106,7 +126,48 @@ VALUES
     ('Chicken Tikka Masala', 
         'Chicken, Yogurt, Tomatoes, Onion, Garlic, Ginger, Garam Masala', 
         40, 
-        '1. Marinate chicken in yogurt and spices. 2. Cook chicken, then make masala sauce with tomatoes, onions, and spices.');
+        '1. Marinate chicken in yogurt and spices. 2. Cook chicken, then make masala sauce with tomatoes, onions, and spices.'),
+    ('Pancakes', 
+        'Flour, Eggs, Milk, Sugar, Baking Powder, Butter', 
+        20, 
+        '1. Mix flour, eggs, milk, sugar, and baking powder. 2. Cook on a griddle with butter until golden.'),
+    ('Avocado Toast', 
+        'Bread, Avocado, Salt, Pepper, Olive Oil', 
+        10, 
+        '1. Toast bread. 2. Mash avocado with salt, pepper, and olive oil, then spread on toast.'),
+    ('Oatmeal', 
+        'Oats, Milk or Water, Honey, Cinnamon', 
+        10, 
+        '1. Cook oats in milk or water. 2. Add honey and cinnamon.'),
+    ('Scrambled Eggs', 
+        'Eggs, Salt, Butter, Pepper', 
+        5, 
+        '1. Beat eggs with salt. 2. Cook in butter until fluffy. 3. Add pepper to taste.'),
+    ('Smoothie Bowl', 
+        'Frozen Berries, Banana, Yogurt, Granola, Honey', 
+        5, 
+        '1. Blend berries and banana with yogurt. 2. Pour into bowl and top with granola and honey.'),
+    ('Bagel with Cream Cheese', 
+        'Bagel, Cream Cheese', 
+        5, 
+        '1. Toast bagel. 2. Spread cream cheese on bagel halves.'),
+    ('French Toast', 
+        'Bread, Eggs, Milk, Sugar, Cinnamon', 
+        15, 
+        '1. Dip bread in egg, milk, sugar, and cinnamon mixture. 2. Cook on a griddle until golden.'),
+    ('Breakfast Burrito', 
+        'Tortilla, Eggs, Cheese, Sausage, Salsa', 
+        15, 
+        '1. Scramble eggs and cook sausage. 2. Place in tortilla with cheese and salsa, then wrap.'),
+    ('Granola with Yogurt', 
+        'Granola, Yogurt, Fresh Berries', 
+        5, 
+        '1. Serve granola with yogurt and fresh berries.'),
+    ('Egg and Cheese Sandwich', 
+        'Bread, Egg, Cheese, Butter', 
+        10, 
+        '1. Cook egg. 2. Toast bread with butter and place egg and cheese inside.');
+
 
 -- Sample inserts for User
 INSERT INTO `User` (Username, Password)
