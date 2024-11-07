@@ -29,7 +29,7 @@ CREATE TABLE `NutritionalValue` (
 -- Drop and create Recipe table
 DROP TABLE IF EXISTS `Recipe`;
 CREATE TABLE `Recipe` (
-    FoodID INT AUTO_INCREMENT PRIMARY KEY,
+   id INT AUTO_INCREMENT PRIMARY KEY,
     FoodName VARCHAR(255),
     Ingredients TEXT,
     PreparationTime INT,
@@ -49,11 +49,9 @@ DROP TABLE IF EXISTS `Favorites`;
 CREATE TABLE `Favorites` (
     id INT AUTO_INCREMENT PRIMARY KEY,
     UserID INT,
-    RecipeID INT NOT NULL,
     AddedTo DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (UserID) REFERENCES `User`(UserID) ON DELETE CASCADE,
-    FOREIGN KEY (RecipeID) REFERENCES Recipe(id) ON DELETE CASCADE
-);
+;
 
 -- Drop and create Diet table
 DROP TABLE IF EXISTS `Diet`;
@@ -188,8 +186,19 @@ VALUES
 -- Sample inserts for Diet
 INSERT INTO `Diet` (FoodID, Vegetarian, Pescatarian, Vegan, Allergies)
 VALUES
-    (1, FALSE, FALSE, FALSE, 'None'),
-    (2, TRUE, TRUE, TRUE, 'None'),
-    (3, FALSE, FALSE, FALSE, 'Gluten'),
-    (4, FALSE, TRUE, FALSE, 'None'),
-    (5, FALSE, FALSE, FALSE, 'Dairy, Nuts');
+    (1, FALSE, FALSE, FALSE, 'None'), -- Spaghetti Carbonara
+    (2, TRUE, TRUE, TRUE, 'None'), -- Vegetable Stir Fry
+    (3, FALSE, FALSE, FALSE, 'Gluten'), -- Beef Wellington
+    (4, FALSE, TRUE, FALSE, 'None'), -- Grilled Salmon
+    (5, FALSE, FALSE, FALSE, 'Dairy, Nuts'), -- Chicken Tikka Masala
+    (6, FALSE, FALSE, FALSE, 'Dairy, Gluten'), -- Pancakes
+    (7, TRUE, TRUE, TRUE, 'None'), -- Avocado Toast
+    (8, TRUE, TRUE, TRUE, 'None'), -- Oatmeal
+    (9, FALSE, FALSE, FALSE, 'None'), -- Scrambled Eggs
+    (10, TRUE, TRUE, TRUE, 'None'), -- Smoothie Bowl
+    (11, FALSE, FALSE, FALSE, 'Gluten, Dairy'), -- Bagel with Cream Cheese
+    (12, FALSE, FALSE, FALSE, 'Gluten, Dairy, Eggs'), -- French Toast
+    (13, FALSE, FALSE, FALSE, 'Gluten, Dairy, Eggs'), -- Breakfast Burrito
+    (14, TRUE, TRUE, TRUE, 'None'), -- Granola with Yogurt
+    (15, FALSE, FALSE, FALSE, 'Dairy, Gluten, Eggs'); -- Egg and Cheese Sandwich
+
