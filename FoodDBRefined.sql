@@ -201,4 +201,3 @@ VALUES
     (13, FALSE, FALSE, FALSE, 'Gluten, Dairy, Eggs'), -- Breakfast Burrito
     (14, TRUE, TRUE, TRUE, 'None'), -- Granola with Yogurt
     (15, FALSE, FALSE, FALSE, 'Dairy, Gluten, Eggs'); -- Egg and Cheese Sandwich
-
