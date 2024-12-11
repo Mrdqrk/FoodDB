@@ -36,6 +36,7 @@ CREATE TABLE `Recipe` (
     Instructions TEXT NOT NULL
 );
 
+
 -- Drop and create User table
 DROP TABLE IF EXISTS `User`;
 CREATE TABLE IF NOT EXISTS `User` (
@@ -55,14 +56,13 @@ CREATE TABLE `Favorites` (
     FOREIGN KEY (RecipeID) REFERENCES Recipe(id) ON DELETE CASCADE
 );
 
+-- Drop and create Diet table
 DROP TABLE IF EXISTS `Diet`;
 CREATE TABLE `Diet` (
     FoodID INT PRIMARY KEY,
     Vegetarian BOOLEAN NOT NULL,
     Pescatarian BOOLEAN NOT NULL,
     Vegan BOOLEAN NOT NULL,
-    Kosher BOOLEAN NOT NULL,
-    Halal BOOLEAN NOT NULL,
     Allergies TEXT NOT NULL,
     FOREIGN KEY (FoodID) REFERENCES FoodItems(FoodID) ON DELETE CASCADE
 );
@@ -478,51 +478,84 @@ VALUES
     (2, 5),
     (3, 2);
 
--- Sample inserts for Diet (with Kosher and Halal constraints)
-INSERT INTO `Diet` (FoodID, Vegetarian, Pescatarian, Vegan, Allergies, Kosher, Halal)
+    -- Populate Diet Table
+INSERT INTO `Diet` (FoodID, Vegetarian, Pescatarian, Vegan, Allergies)
 VALUES
-    (1, FALSE, FALSE, FALSE, 'Gluten', FALSE, TRUE),
-    (2, TRUE, TRUE, TRUE, 'None', TRUE, TRUE),
-    (3, TRUE, TRUE, TRUE, 'Dairy', TRUE, TRUE),
-    (4, FALSE, TRUE, FALSE, 'None', FALSE, TRUE),
-    (5, TRUE, TRUE, TRUE, 'None', TRUE, FALSE),
-    (6, TRUE, TRUE, TRUE, 'None', TRUE, FALSE),
-    (7, TRUE, TRUE, TRUE, 'Dairy', FALSE, TRUE),
-    (8, FALSE, TRUE, FALSE, 'Dairy', FALSE, TRUE),
-    (9, TRUE, TRUE, TRUE, 'None', TRUE, TRUE),
-    (10, TRUE, TRUE, TRUE, 'None', TRUE, TRUE),
-    (11, FALSE, TRUE, FALSE, 'Gluten', FALSE, TRUE),
-    (12, TRUE, TRUE, TRUE, 'None', TRUE, FALSE),
-    (13, FALSE, TRUE, FALSE, 'Gluten', FALSE, TRUE),
-    (14, FALSE, TRUE, FALSE, 'None', FALSE, TRUE),
-    (15, TRUE, TRUE, TRUE, 'None', TRUE, TRUE),
-    (16, FALSE, TRUE, FALSE, 'Gluten', FALSE, TRUE),
-    (17, TRUE, TRUE, TRUE, 'None', TRUE, FALSE),
-    (18, TRUE, TRUE, TRUE, 'None', TRUE, TRUE),
-    (19, TRUE, TRUE, TRUE, 'None', TRUE, TRUE),
-    (20, TRUE, TRUE, TRUE, 'None', TRUE, TRUE),
-    (21, TRUE, TRUE, TRUE, 'None', TRUE, TRUE),
-    (22, TRUE, TRUE, TRUE, 'None', TRUE, TRUE),
-    (23, TRUE, TRUE, TRUE, 'None', TRUE, TRUE),
-    (24, TRUE, TRUE, TRUE, 'None', TRUE, TRUE),
-    (25, TRUE, TRUE, TRUE, 'None', TRUE, TRUE),
-    (26, TRUE, TRUE, TRUE, 'None', TRUE, TRUE),
-    (27, FALSE, TRUE, FALSE, 'None', FALSE, TRUE),
-    (28, FALSE, TRUE, FALSE, 'None', FALSE, TRUE),
-    (29, TRUE, TRUE, TRUE, 'None', TRUE, FALSE),
-    (30, FALSE, TRUE, FALSE, 'None', FALSE, TRUE),
-    (31, TRUE, TRUE, TRUE, 'None', TRUE, TRUE),
-    (32, TRUE, TRUE, TRUE, 'None', TRUE, TRUE),
-    (33, FALSE, TRUE, FALSE, 'None', FALSE, TRUE),
-    (34, TRUE, TRUE, TRUE, 'None', TRUE, TRUE),
-    (35, TRUE, TRUE, TRUE, 'None', TRUE, TRUE),
-    (36, TRUE, TRUE, TRUE, 'None', TRUE, TRUE),
-    (37, TRUE, TRUE, TRUE, 'None', TRUE, TRUE),
-    (38, TRUE, TRUE, TRUE, 'None', TRUE, TRUE),
-    (39, FALSE, TRUE, FALSE, 'None', FALSE, TRUE),
-    (40, TRUE, TRUE, TRUE, 'None', TRUE, TRUE),
-    (41, FALSE, TRUE, FALSE, 'None', FALSE, TRUE),
-    (42, FALSE, TRUE, FALSE, 'None', FALSE, TRUE),
-    (43, TRUE, TRUE, TRUE, 'None', TRUE, TRUE),
-    (44, TRUE, TRUE, TRUE, 'None', TRUE, TRUE),
-    (45, TRUE, TRUE, TRUE, 'None', TRUE, TRUE);
+    (1, FALSE, FALSE, FALSE, 'Gluten, Dairy'),  -- Pancakes: Contains eggs, milk, butter
+    (2, FALSE, FALSE, FALSE, 'Gluten, Dairy'),  -- French Toast: Contains eggs, milk
+    (3, FALSE, FALSE, FALSE, 'Dairy'),          -- Omelette: Contains eggs, cheese
+    (4, FALSE, FALSE, FALSE, 'Dairy, Gluten'),  -- Breakfast Burrito: Sausage, eggs
+    (5, TRUE, TRUE, TRUE, 'None'),             -- Smoothie Bowl: Vegan ingredients
+    (6, TRUE, TRUE, TRUE, 'None'),             -- Avocado Toast: Vegan ingredients
+    (7, TRUE, TRUE, TRUE, 'Gluten, Dairy'),    -- Bagel with Cream Cheese: Vegetarian
+    (8, FALSE, TRUE, FALSE, 'Dairy'),          -- Breakfast Sandwich: Ham/Bacon, cheese
+    (9, TRUE, TRUE, TRUE, 'Dairy'),            -- Yogurt Parfait: Contains dairy
+    (10, TRUE, TRUE, TRUE, 'None'),             -- Scrambled Eggs: Vegetarian (eggs only)
+    (11, FALSE, FALSE, FALSE, 'Gluten, Dairy'), -- Waffles: Contains eggs, milk, butter
+    (12, TRUE, TRUE, TRUE, 'None'),             -- Chia Pudding: Vegan ingredients
+    (13, TRUE, TRUE, TRUE, 'Gluten'),           -- Muffins: Contains gluten, vegetarian
+    (14, FALSE, FALSE, FALSE, 'Gluten, Dairy'), -- Banana Bread: Contains butter, eggs
+    (15, FALSE, FALSE, FALSE, 'Dairy'),         -- Eggs Benedict: Contains eggs, ham, dairy
+    (16, FALSE, FALSE, FALSE, 'Dairy, Gluten'), -- Breakfast Quesadilla: Bacon/sausage, cheese
+    (17, FALSE, FALSE, FALSE, 'Gluten, Dairy'), -- Breakfast Casserole: Sausage, milk, cheese
+    (18, TRUE, TRUE, TRUE, 'None'),             -- Overnight Oats: Vegan ingredients
+    (19, FALSE, FALSE, FALSE, 'Gluten, Dairy'), -- Cinnamon Rolls: Butter, eggs, milk
+    (20, TRUE, TRUE, TRUE, 'Dairy'),            -- Frittata: Eggs, cheese, vegetarian
+    (21, TRUE, TRUE, TRUE, 'None'),             -- Granola: Vegan ingredients
+    (22, FALSE, FALSE, FALSE, 'Dairy, Gluten'), -- Breakfast Pizza: Bacon, eggs, cheese
+    (23, TRUE, TRUE, TRUE, 'None'),             -- Tofu Scramble: Vegan ingredients
+    (24, TRUE, TRUE, TRUE, 'None'),             -- Quinoa Breakfast Bowl: Vegetarian ingredients
+    (25, FALSE, TRUE, FALSE, 'None'),           -- Breakfast Tacos: Eggs, cheese, vegetarian
+    (26, TRUE, TRUE, TRUE, 'Gluten, Dairy'),    -- Dutch Baby Pancake: Eggs, butter, vegetarian
+    (27, TRUE, TRUE, TRUE, 'None'),             -- Fruit Salad: Vegan ingredients
+    (28, TRUE, TRUE, TRUE, 'None'),             -- Poached Eggs: Eggs, vegetarian
+    (29, TRUE, TRUE, TRUE, 'None'),             -- Acai Bowl: Vegan ingredients
+    (30, TRUE, TRUE, TRUE, 'None'),             -- Hash Browns: Vegan ingredients
+    (31, TRUE, TRUE, TRUE, 'Gluten, Dairy'),    -- Scones: Butter, milk, vegetarian
+    (32, TRUE, TRUE, TRUE, 'Dairy'),            -- Apple Cinnamon Oatmeal: Milk, vegetarian
+    (33, FALSE, FALSE, FALSE, 'Eggs'),          -- Shakshuka: Eggs, vegetarian
+    (34, FALSE, FALSE, FALSE, 'Eggs'),          -- Breakfast Ramen: Eggs, bacon
+    (35, TRUE, TRUE, TRUE, 'Dairy'),            -- Savory Oatmeal: Parmesan, eggs
+    (36, FALSE, FALSE, FALSE, 'Dairy'),         -- Breakfast Queso Fundido: Eggs, chorizo
+    (37, TRUE, TRUE, TRUE, 'None'),             -- Japanese Tamago Sando: Eggs, vegetarian
+    (38, FALSE, FALSE, FALSE, 'Dairy, Gluten'), -- Croque Madame: Ham, cheese, bechamel
+    (39, TRUE, TRUE, TRUE, 'None'),             -- Congee: Vegan ingredients
+    (40, TRUE, TRUE, TRUE, 'None'),             -- Turkish Menemen: Eggs, vegetarian
+    (41, TRUE, TRUE, TRUE, 'Dairy'),            -- Chia Seed Pudding with Mango: Vegetarian
+    (42, TRUE, TRUE, TRUE, 'None'),             -- Beetroot and Sweet Potato Hash: Vegetarian
+    (43, TRUE, TRUE, TRUE, 'Dairy'),            -- Savory French Toast: Eggs, milk
+    (44, FALSE, FALSE, FALSE, 'Gluten, Dairy'), -- Breakfast Flatbread: Salmon, cheese
+    (45, TRUE, TRUE, TRUE, 'Dairy'),            -- Coconut Rice Porridge: Milk, vegetarian
+    (46, TRUE, TRUE, TRUE, 'None'),             -- Breakfast Polenta: Vegan ingredients
+    (47, TRUE, TRUE, TRUE, 'None'),             -- Banana Sushi: Vegan ingredients
+    (48, TRUE, TRUE, TRUE, 'None'),             -- Baked Avocado with Eggs: Vegetarian
+    (49, TRUE, TRUE, TRUE, 'None'),             -- Mexican Breakfast Torta: Vegetarian
+    (50, TRUE, TRUE, TRUE, 'Dairy'),            -- Breakfast Couscous: Vegetarian ingredients
+    (51, TRUE, TRUE, TRUE, 'Dairy'),            -- Savory Crepes: Vegetarian ingredients
+    (52, TRUE, TRUE, TRUE, 'Dairy'),            -- Mango Sticky Rice: Vegetarian ingredients
+    (53, TRUE, TRUE, TRUE, 'Dairy'),            -- Irish Boxty: Vegetarian ingredients
+    (54, TRUE, TRUE, TRUE, 'None'),             -- Sweet Potato Breakfast Burrito: Vegetarian
+    (55, TRUE, TRUE, TRUE, 'None'),             -- Breakfast Farro Bowl: Vegetarian
+    (56, TRUE, TRUE, TRUE, 'None'),             -- Green Smoothie: Vegan ingredients
+    (57, TRUE, TRUE, TRUE, 'Dairy'),            -- Cottage Cheese Pancakes: Dairy, vegetarian
+    (58, TRUE, TRUE, TRUE, 'None'),             -- Savory Breakfast Bowl: Vegetarian ingredients
+    (59, FALSE, FALSE, FALSE, 'Gluten, Dairy'), -- Swedish Cardamom Buns: Vegetarian ingredients
+    (60, TRUE, TRUE, TRUE, 'Dairy'),            -- Pumpkin Spice Oats: Vegetarian ingredients
+    (61, TRUE, TRUE, TRUE, 'None'),             -- Japanese Rice Porridge: Vegan ingredients
+    (62, TRUE, TRUE, TRUE, 'None'),             -- Breakfast Panzanella: Vegan ingredients
+    (63, TRUE, TRUE, TRUE, 'Dairy'),            -- Breakfast Dumplings: Eggs, vegetarian
+    (64, TRUE, TRUE, TRUE, 'Dairy'),            -- Sweet Corn Pancakes: Milk, vegetarian
+    (65, TRUE, TRUE, TRUE, 'None'),             -- Tofu Breakfast Burrito: Vegan ingredients
+    (66, TRUE, TRUE, TRUE, 'None'),             -- Herbed Ricotta Toast: Vegetarian ingredients
+    (67, TRUE, TRUE, TRUE, 'Dairy');            -- Egg and Veggie Tart: Vegetarian ingredients
+
+CREATE VIEW PaginatedRecipes AS
+SELECT 
+    CEIL(ROW_NUMBER() OVER (ORDER BY id) / 3.0) AS PageNumber, -- Calculate page number (3 recipes per page)
+    ROW_NUMBER() OVER (ORDER BY id) AS RowNum,                -- Row number for fine control
+    id AS RecipeID, 
+    FoodName, 
+    Ingredients
+    FROM Recipe;
+
+
